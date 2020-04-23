@@ -5,7 +5,18 @@ namespace DTOs.Weathers
 {
     public partial class Hourly
     {
-        public DateTime Dt { get; set; }
+        private int dt;
+
+        public int Dt
+        {
+            get => dt;
+            set
+            {
+                dt = value;
+                DateTime = new DateTime(dt);
+            }
+        }
+        public DateTime DateTime { get; set; }
         public double Temp { get; set; }
         public double FeelsLike { get; set; }
         public long Pressure { get; set; }

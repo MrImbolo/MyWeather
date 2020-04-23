@@ -5,9 +5,41 @@ namespace DTOs.Weathers
 {
     public partial class Current
     {
-        public DateTime Dt { get; set; }
-        public DateTime Sunrise { get; set; }
-        public DateTime Sunset { get; set; }
+        private int dt;
+        private int sunrise;
+        private int sunset;
+
+        public int Dt
+        {
+            get => dt;
+            set
+            {
+                dt = value;
+                DateTime = new DateTime(dt);
+            }
+        }
+        public int Sunrise
+        {
+            get => sunrise;
+            set
+            {
+                sunrise = value;
+                SunriseDT = new DateTime(sunrise);
+            }
+        }
+        public int Sunset
+        {
+            get => sunset;
+            set
+            {
+                sunset = value;
+                SunsetDT = new DateTime(sunset);
+            }
+        }
+        public DateTime SunriseDT { get; private set; }
+        public DateTime SunsetDT { get; private set; }
+        public DateTime DateTime { get; set; }
+
         public double Temp { get; set; }
         public double FeelsLike { get; set; }
         public long Pressure { get; set; }
