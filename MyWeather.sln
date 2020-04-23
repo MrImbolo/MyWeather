@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWeatherService", "MyWeatherService\MyWeatherService.csproj", "{EC571867-8594-4C00-B16F-305384852816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeatherService", "MyWeatherService\MyWeatherService.csproj", "{EC571867-8594-4C00-B16F-305384852816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWeatherDAL", "MyWeatherDAL\MyWeatherDAL.csproj", "{938B8431-5EE6-41D5-8EA4-B6179AC4AF87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeatherDAL", "MyWeatherDAL\MyWeatherDAL.csproj", "{938B8431-5EE6-41D5-8EA4-B6179AC4AF87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{5350B856-3663-4968-BA1E-B083B21579D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{938B8431-5EE6-41D5-8EA4-B6179AC4AF87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{938B8431-5EE6-41D5-8EA4-B6179AC4AF87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{938B8431-5EE6-41D5-8EA4-B6179AC4AF87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5350B856-3663-4968-BA1E-B083B21579D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5350B856-3663-4968-BA1E-B083B21579D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5350B856-3663-4968-BA1E-B083B21579D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5350B856-3663-4968-BA1E-B083B21579D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,5 +6,6 @@ namespace MyWeatherService.Settings
     {
         public SecureString ApiKey { get; internal set; }
         public string DefaultName { get; internal set; }
+        public string Request { get; internal set; }
     }
 }

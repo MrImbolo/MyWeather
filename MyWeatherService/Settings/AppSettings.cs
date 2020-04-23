@@ -14,6 +14,7 @@ namespace MyWeatherService.Settings
 
         public OpenCageData OpenCageData { get; protected set; }
         public OpenWeatherData OpenWeatherData { get; protected set; }
+        public DefaultLocation DefaultLocation { get; protected set; }
         public Dictionary<string, double> Intervals { get; protected set; }
         public Dictionary<string, string> ConnectionStrings { get; protected set; }
 
