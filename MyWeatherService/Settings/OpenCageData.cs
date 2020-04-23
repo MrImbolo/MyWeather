@@ -4,6 +4,6 @@ namespace MyWeatherService.Settings
 {
     public class OpenCageData
     {
-        public SecureString ApiKey { get; internal set; }
+        public string ApiKey { get; set; }
     }
 }

@@ -4,8 +4,8 @@ namespace MyWeatherService.Settings
 {
     public class OpenWeatherData
     {
-        public SecureString ApiKey { get; internal set; }
-        public string DefaultName { get; internal set; }
-        public string Request { get; internal set; }
+        public string ApiKey { get; set; }
+        public string DefaultName { get; set; }
+        public string Request { get; set; }
     }
 }
