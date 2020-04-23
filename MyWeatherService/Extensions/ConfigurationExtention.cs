@@ -27,8 +27,9 @@ namespace MyWeatherService.Extensions
             Dictionary<string, double> intervals = config.GetSection("DefaultIntervals").Get<Dictionary<string, double>>();
             OpenCageData openCageData = config.GetSection("OpenCageData").Get<OpenCageData>();
             OpenWeatherData openWeatherData = config.GetSection("OpenWeatherData").Get<OpenWeatherData>();
+            DefaultLocation defaultLocation = config.GetSection("DefaultLocation").Get<DefaultLocation>();
 
-            return new AppSettings(cStrings, intervals, openCageData, openWeatherData);
+            return new AppSettings(cStrings, intervals, openCageData, openWeatherData, defaultLocation);
         }
     }
 }
