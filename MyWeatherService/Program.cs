@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,16 @@ namespace MyWeatherService
                 {
                     AppSettings appSettings = hostContext.Configuration.ExtractWeatherSettings();
 
+                    JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        PropertyNameCaseInsensitive = true,
+                        DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    };
+
                     services.AddSingleton(appSettings);
+                    services.AddSingleton(jsonSerializerOptions);
                     services.AddHostedService<Worker>();
                 });
     }
