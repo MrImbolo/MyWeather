@@ -10,8 +10,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DTOs\DTOs.csproj" />
-  </ItemGroup>
-
 </Project>

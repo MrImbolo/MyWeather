@@ -1,8 +1,7 @@
-﻿namespace DTOs.Weathers
+﻿namespace DTO.Weathers
 {
-    public partial class Weather
+    public partial class WeatherDescription
     {
-        public long Id { get; set; }
         public string Main { get; set; }
         public string Description { get; set; }
         public string Icon { get; set; }
