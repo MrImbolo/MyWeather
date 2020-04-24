@@ -5,3 +5,6 @@
 **/.vs
 **/obj
 **/bin
+/.vscode
+/weather.json
+/location.json
