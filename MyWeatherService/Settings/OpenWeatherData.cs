@@ -1,6 +1,4 @@
-﻿using System.Security;
-
-namespace MyWeatherService.Settings
+﻿namespace MyWeatherService.Settings
 {
     public class OpenWeatherData
     {
