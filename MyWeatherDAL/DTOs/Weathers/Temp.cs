@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace DTO.Weathers
+namespace MyWeatherDAL.DTO.Weathers
 {
     public partial class Temp
     {

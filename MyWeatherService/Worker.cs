@@ -1,9 +1,9 @@
-using DTO.Weathers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MyWeatherCL.MyWeatherServicesDuplicates;
-using MyWeatherService.Utilities;
 using MyWeatherDAL;
+using MyWeatherDAL.DTO.Weathers;
+using MyWeatherService.Settings;
+using MyWeatherService.Utilities;
 using System;
 using System.IO;
 using System.Linq;
@@ -11,18 +11,20 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyWeatherService
 {
     public partial class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly AppSettings _appSettings;
+        private readonly ServiceAppSettings _appSettings;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly MyContext _context;
         private readonly RequestableLocationLoader _requestableLocationLoader;
 
-        public Worker(ILogger<Worker> logger, AppSettings appSettings, JsonSerializerOptions jsonSerializerOptions, MyContext context)
+        public Worker(ILogger<Worker> logger, ServiceAppSettings appSettings, JsonSerializerOptions jsonSerializerOptions, MyContext context)
         {
             _logger = logger;
             _appSettings = appSettings;
@@ -34,19 +36,17 @@ namespace MyWeatherService
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Worker started at: {time}", DateTimeOffset.Now);
+            var locations = await _context.Locations.Where(x => x.Requestable).ToListAsync();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-
-                var locations = _requestableLocationLoader.Load();
                 if (!locations.Any())
                 {
                     var httpMessage = new DefaultServiceWeatherRequestBuilder(_appSettings).Build();
-
-                    
                 }
                 else
                 {
-                    locations.AsParallel().ForAll(async x =>
+                    locations.ForEach(async x =>
                     {
                         var httpMessage = new ServiceWeatherRequestBuilder(_appSettings, x).Build();
                         var result = await ExecuteSending(httpMessage, stoppingToken, _logger);

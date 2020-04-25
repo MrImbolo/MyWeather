@@ -1,16 +1,16 @@
-﻿using MyWeatherCL.MyWeatherServicesDuplicates;
-using MyWeatherCL.Utilities;
+﻿using MyWeatherCL.Utilities;
 using MyWeatherDAL.Models.Locations;
+using MyWeatherService.Settings;
 using System.Net.Http;
 
 namespace MyWeatherService.Utilities
 {
     public class ServiceWeatherRequestBuilder : RequestBuilderBase
     {
-        private readonly AppSettings _appSettings;
+        private readonly ServiceAppSettings _appSettings;
         private readonly Location _location;
 
-        public ServiceWeatherRequestBuilder(AppSettings settings, Location location)
+        public ServiceWeatherRequestBuilder(ServiceAppSettings settings, Location location)
         {
             _appSettings = settings;
             _location = location;

@@ -69,3 +69,10 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.list-group-item {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    padding-left: 0.375rem;
+    padding-right: 0.375rem;
+}

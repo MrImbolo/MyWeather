@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyWeatherCL.Settings;
+using MyWeatherDAL;
+using MyWeatherService.Extensions;
+using System.Collections.Generic;
 
 namespace MyWeatherApp
 {
@@ -23,6 +23,14 @@ namespace MyWeatherApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
+
+            services.AddWebAppSettings(Configuration);
+
+            services.AddDbContext<MyContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("Default"), npgOptions => npgOptions.MigrationsAssembly("MyWeatherService"))
+            );
+
             services.AddControllersWithViews();
         }
 

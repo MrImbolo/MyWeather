@@ -24,7 +24,7 @@ namespace MyWeatherService
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    AppSettings appSettings = hostContext.Configuration.ExtractWeatherSettings();
+                    ServiceAppSettings appSettings = hostContext.Configuration.ExtractWeatherSettings();
 
                     JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
                     {

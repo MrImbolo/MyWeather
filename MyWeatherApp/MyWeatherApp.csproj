@@ -13,4 +13,8 @@
     <ProjectReference Include="..\MyWeatherDAL\MyWeatherDAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

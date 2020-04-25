@@ -16,9 +16,6 @@ namespace MyWeatherService.Utilities
             _context = context;
         }
 
-        public List<Location> Load()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Location> Load() => _context.Locations.Where(x => x.Requestable).ToList();
     }
 }

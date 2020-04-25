@@ -1,6 +1,6 @@
 ﻿using System.Security;
 
-namespace MyWeatherService.Settings
+namespace MyWeatherCL.Settings
 {
     public class OpenCageData
     {

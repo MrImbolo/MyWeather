@@ -1,0 +1,75 @@
+﻿@{
+    var location = ViewBag.Location as MyWeatherDAL.Models.Locations.Location;
+    var weatherSummary = ViewBag.WeatherSummary as MyWeatherDAL.DTO.Weathers.WeatherSummary;
+}
+<div class="card bg-dark text-white">
+    <img src="~/img/default.jpg" class="card-img" alt="default">
+    <div class="card-img-overlay">
+        @if (location != null && weatherSummary != null)
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title">Погода в @location.Formatted</h5>
+                    <p>Температура: @weatherSummary.Current.Temp</p>
+                    <p>Ощущается как: @weatherSummary.Current.FeelsLike</p>
+                    <p>Влажность: @weatherSummary.Current.Humidity</p>
+                    <p>Атмосферное давление: @weatherSummary.Current.Pressure</p>
+                    <p>Индекс ультрафиолета: @weatherSummary.Current.Uvi</p>
+                </div>
+                <div class="col-md-6">
+                    <p>Here is come textos!</p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="setLocation" name="locationForm">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="locationName" aria-describedby="searchBtn" placeholder="Название населенного пункта">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="searchBtn"> <strong>></strong> </button>
+                            </div>
+                        </div>
+                        <div id="tabs" class="m-0 p-0"></div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let tabs = document.getElementById('tabs');
+
+        const getSearchStr = () => $('#locationName').val();
+
+        const findLocations = async () => await fetchAsync(`/locations/get?searchStr=${getSearchStr()}`);
+
+        const setTabs = async () => {
+            tabs.childNodes.forEach(x => x.remove());
+            
+            var locations = await findLocations();
+
+            let item = document.createElement("a");
+            item.classList.add('list-group-item', 'list-group-item-action');
+            item.attributes.setNamedItem('data-toggle', 'list');
+            item.attributes.setNamedItem('role', 'tab');
+
+            locations.forEach(location => {
+                let clone = item.cloneNode();
+                clone.id = `location_${location.id}`;
+                clone.attributes.setNamedItem('data-id', location.id);
+                clone.addEventListener('click', handleFoundCity);
+                tabs.appendChild(clone);
+            });
+        };
+
+
+        document.getElementById('searchBtn').addEventListener('click', setTabs);
+        document.getElementById('locationName').addEventListener('input', setTabs);
+
+
+    })
+</script>

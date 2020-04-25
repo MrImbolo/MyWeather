@@ -20,5 +20,7 @@
 
         [JsonPropertyName("geometry")]
         public Geometry Geometry { get; set; }
+        public bool Current { get; set; }
+        public bool Requestable { get; set; }
     }
 }

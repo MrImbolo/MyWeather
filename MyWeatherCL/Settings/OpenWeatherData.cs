@@ -1,4 +1,4 @@
-﻿namespace MyWeatherService.Settings
+﻿namespace MyWeatherCL.Settings
 {
     public class OpenWeatherData
     {

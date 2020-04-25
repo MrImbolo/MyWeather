@@ -1,13 +1,13 @@
-﻿using MyWeatherCL.MyWeatherServicesDuplicates;
-using MyWeatherCL.Utilities;
+﻿using MyWeatherCL.Utilities;
+using MyWeatherService.Settings;
 using System.Net.Http;
 
 namespace MyWeatherService.Utilities
 {
     public class DefaultServiceWeatherRequestBuilder : RequestBuilderBase
     {
-        private readonly AppSettings _appSettings;
-        public DefaultServiceWeatherRequestBuilder(AppSettings settings)
+        private readonly ServiceAppSettings _appSettings;
+        public DefaultServiceWeatherRequestBuilder(ServiceAppSettings settings)
         {
             _appSettings = settings;
         }

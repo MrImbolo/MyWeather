@@ -1,5 +1,5 @@
-﻿using DTO.Weathers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MyWeatherDAL.DTO.Weathers;
 using MyWeatherDAL.Models.Locations;
 
 namespace MyWeatherDAL

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using MyWeatherCL.Settings;
+using System.Collections.Generic;
 
-namespace MyWeatherCL.MyWeatherServicesDuplicates
+namespace MyWeatherService.Settings
 {
-    public class AppSettings
+    public class ServiceAppSettings
     {
-        public AppSettings(Dictionary<string, string> cStrings, Dictionary<string, double> intervals, OpenCageData openCageData, OpenWeatherData openWeatherData, DefaultLocation defaultLocation)
+        public ServiceAppSettings(Dictionary<string, string> cStrings, Dictionary<string, double> intervals, OpenCageData openCageData, OpenWeatherData openWeatherData, DefaultLocation defaultLocation)
         {
             ConnectionStrings = cStrings;
             Intervals = intervals;

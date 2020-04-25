@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace DTO.Weathers
+namespace MyWeatherDAL.DTO.Weathers
 {
     public partial class WeatherSummary
     {
+        public int Id { get; set; }
         public double Lat { get; set; }
         public double Lon { get; set; }
         public string Timezone { get; set; }

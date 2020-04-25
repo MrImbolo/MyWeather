@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace DTO.Weathers
+namespace MyWeatherDAL.DTO.Weathers
 {
     public partial class Weather
     {
+        public int Id { get; set; }
         [JsonConverter(typeof(UnixDateTimeJsonConverter))]
         public DateTime SunriseDT { get; private set; }
         [JsonConverter(typeof(UnixDateTimeJsonConverter))]
