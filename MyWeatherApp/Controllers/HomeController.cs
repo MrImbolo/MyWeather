@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyWeatherApp.Models;
 using MyWeatherDAL;
+using MyWeatherDAL.Models.Locations;
 
 namespace MyWeatherApp.Controllers
 {
@@ -24,17 +25,28 @@ namespace MyWeatherApp.Controllers
         }
 
 
-        public async Task<IActionResult> Index(CancellationToken token)
+        public IActionResult Index(CancellationToken token)
         {
-            var location = await _context.Locations.FirstOrDefaultAsync(x => x.Current, token);
-            if (location != null)
-            {
-                ViewBag.Weather = await _context.WeatherSummaries.FirstOrDefaultAsync(x => x.LocationId == location.Id);
-                ViewBag.Location = location;
-            }
             return View();
         }
 
+        public async Task<IActionResult> Weather([FromBody]Location location, CancellationToken ct)
+        {
+            await Task.Delay(5000);
+            if (location != null)
+            {
+                var locationExist = await _context.Locations.FirstOrDefaultAsync(x => x.Formatted == location.Formatted) ?? (await _context.Locations.AddAsync(location)).Entity;
+                ViewBag.Location = locationExist;
+                
+                // TODO: rename _WeatherPartial to something like _WeatherFramePartial
+                // TODO: divide logic between location search partial and weather partial and load them separately from different controllers
+                // TODO: FINALLY ADD SOME LOCATIONS AND WEATHER 
+                
+                return PartialView("_WeatherPartial");
+            }
+
+            return BadRequest();
+        }
         public IActionResult Privacy()
         {
             return View();

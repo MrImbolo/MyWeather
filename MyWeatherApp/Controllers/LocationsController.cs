@@ -14,9 +14,9 @@ namespace MyWeatherApp.Controllers
     {
         private readonly MyContext _context;
         private readonly WebAppSettings _settings;
-        private readonly ILogger _logger;
+        private readonly ILogger<LocationsController> _logger;
 
-        public LocationsController(MyContext context, WebAppSettings settings, ILogger logger)
+        public LocationsController(MyContext context, WebAppSettings settings, ILogger<LocationsController> logger)
         {
             _context = context;
             _settings = settings;
@@ -24,11 +24,12 @@ namespace MyWeatherApp.Controllers
         }
         public async Task<IActionResult> Get([FromQuery]string searchStr, CancellationToken token)
         {
-            var locations = await _context.Locations.Include("Geometry").Where(x => x.Formatted.ToUpperInvariant().Contains(searchStr.ToUpperInvariant())).ToListAsync(token);
+            // var locations = await _context.Locations.Include("Geometry").Where(x => x.Formatted.ToUpperInvariant().Contains(searchStr.ToUpperInvariant())).ToListAsync(token);
 
             var httpMessage = new LocationsRequestBuilder(_settings, searchStr).Build();
             var result = await HttpClientWrapper.RequestString(httpMessage, token, _logger);
 
+            Response.ContentType = "application/json";
             return Ok(result);
         }
     }

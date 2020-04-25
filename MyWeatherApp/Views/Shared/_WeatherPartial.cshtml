@@ -2,7 +2,7 @@
     var location = ViewBag.Location as MyWeatherDAL.Models.Locations.Location;
     var weatherSummary = ViewBag.WeatherSummary as MyWeatherDAL.DTO.Weathers.WeatherSummary;
 }
-<div class="card bg-dark text-white">
+<div class="card bg-dark text-white" id="card-weather">
     <img src="~/img/default.jpg" class="card-img" alt="default">
     <div class="card-img-overlay">
         @if (location != null && weatherSummary != null)
@@ -17,7 +17,7 @@
                     <p>Индекс ультрафиолета: @weatherSummary.Current.Uvi</p>
                 </div>
                 <div class="col-md-6">
-                    <p>Here is come textos!</p>
+                    <p>Here is some textos!</p>
                 </div>
             </div>
         }
@@ -51,25 +51,31 @@
             tabs.childNodes.forEach(x => x.remove());
             
             var locations = await findLocations();
+            console.log(locations);
 
             let item = document.createElement("a");
             item.classList.add('list-group-item', 'list-group-item-action');
-            item.attributes.setNamedItem('data-toggle', 'list');
-            item.attributes.setNamedItem('role', 'tab');
+            item.setAttribute('data-toggle', 'list');
+            item.setAttribute('role', 'tab');
 
             locations.forEach(location => {
                 let clone = item.cloneNode();
-                clone.id = `location_${location.id}`;
-                clone.attributes.setNamedItem('data-id', location.id);
+                clone.id = `location_${location.formatted}`;
+                clone.setAttribute('data-name', location.formatted);
                 clone.addEventListener('click', handleFoundCity);
                 tabs.appendChild(clone);
             });
         };
 
+        async function handleFoundCity(e) {
+            const id = e.target.attributes.getNamedItem("data-id");
+            const result = await fetchAsync(`/home/weather/?locationName=${id}`)
+
+            $('#weather-partial').html('');
+            $('#weather-partial').html(result);
+        }
 
         document.getElementById('searchBtn').addEventListener('click', setTabs);
         document.getElementById('locationName').addEventListener('input', setTabs);
-
-
     })
 </script>
