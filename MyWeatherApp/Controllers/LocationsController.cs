@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyWeatherCL.Settings;
 using MyWeatherDAL;
+using MyWeatherDAL.Models.Locations;
 using MyWeatherService.Utilities;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,15 +24,51 @@ namespace MyWeatherApp.Controllers
             _settings = settings;
             _logger = logger;
         }
+
+        //[HttpGet]
+        //public IActionResult OpenCageApiKey() => Ok(_settings.OpenCageData.ApiKey);
+
+        public IActionResult Change()
+        {
+            Response.Cookies.Delete("LocationId");
+            return PartialView("_LocationFindPartial");
+        }
         public async Task<IActionResult> Get([FromQuery]string searchStr, CancellationToken token)
         {
             // var locations = await _context.Locations.Include("Geometry").Where(x => x.Formatted.ToUpperInvariant().Contains(searchStr.ToUpperInvariant())).ToListAsync(token);
 
             var httpMessage = new LocationsRequestBuilder(_settings, searchStr).Build();
-            var result = await HttpClientWrapper.RequestString(httpMessage, token, _logger);
+            var result = await HttpClientWrapper.RequestStringAsync(httpMessage, token, _logger);
 
-            Response.ContentType = "application/json";
-            return Ok(result);
+            if (string.IsNullOrWhiteSpace(result))
+                result = "{}";
+
+            return Content(result, "application/json");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Set([FromBody]Location location, CancellationToken ct)
+        {
+            if (location != null)
+            {
+                var locationExist = await _context.Locations.FirstOrDefaultAsync(x => x.Formatted == location.Formatted);
+                
+                if (locationExist == null)
+                {
+                    await _context.Locations.AddAsync(location, ct);
+                    await _context.SaveChangesAsync(ct);
+                    locationExist = location;
+                }
+
+                ViewBag.Location = locationExist;
+
+                Response.Cookies.Append("LocationId", locationExist.Id.ToString());
+
+
+                return RedirectToAction("Get", "Weather");
+            }
+
+            return BadRequest();
         }
     }
 }

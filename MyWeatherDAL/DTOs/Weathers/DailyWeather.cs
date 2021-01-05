@@ -5,31 +5,27 @@ using System.Text.Json.Serialization;
 
 namespace MyWeatherDAL.DTO.Weathers
 {
-    public partial class Weather
+    public partial class DailyWeather
     {
         public int Id { get; set; }
         [JsonConverter(typeof(UnixDateTimeJsonConverter))]
-        public DateTime Sunrise { get; private set; }
+        public DateTime SunriseDT { get; private set; }
         [JsonConverter(typeof(UnixDateTimeJsonConverter))]
-        public DateTime Sunset { get; private set; }
+        public DateTime SunsetDT { get; private set; }
         [JsonConverter(typeof(UnixDateTimeJsonConverter))]
-        [JsonPropertyName("dt")]
         public DateTime DateTime { get; set; }
 
-        public double Temp { get; set; }
-        [JsonPropertyName("feels_like")]
-        public double FeelsLike { get; set; }
+        public Temp Temp { get; set; }
+        public FeelsLike FeelsLike { get; set; }
         public long Pressure { get; set; }
         public long Humidity { get; set; }
         public double DewPoint { get; set; }
         public double Uvi { get; set; }
         public long Clouds { get; set; }
         public long Visibility { get; set; }
-        [JsonPropertyName("wind_speed")]
-        public double WindSpeed { get; set; }
-        [JsonPropertyName("wind_deg")]
+        public long WindSpeed { get; set; }
         public long WindDeg { get; set; }
-        [JsonPropertyName("weather")]
+        [JsonPropertyName("Weather")]
         public List<WeatherDescription> WeatherDescription { get; set; }
     }
 }

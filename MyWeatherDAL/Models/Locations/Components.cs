@@ -34,7 +34,7 @@
         public string County { get; set; }
 
         [JsonPropertyName("postcode")]
-        public long Postcode { get; set; }
+        public string Postcode { get; set; }
 
         [JsonPropertyName("state")]
         public string State { get; set; }

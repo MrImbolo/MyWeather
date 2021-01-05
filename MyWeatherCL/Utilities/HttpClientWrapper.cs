@@ -10,7 +10,7 @@ namespace MyWeatherService.Utilities
     {
         static readonly HttpClient client = new HttpClient();
 
-        public static async Task<string> RequestString(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger)
+        public static async Task<string> RequestStringAsync(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger)
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
 
@@ -30,7 +30,7 @@ namespace MyWeatherService.Utilities
                 return string.Empty;
             }
         }
-        public static async Task RequestStream(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger, Stream stream)
+        public static async Task RequestStreamAsync(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger, Stream stream)
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
 
@@ -39,8 +39,6 @@ namespace MyWeatherService.Utilities
                 HttpResponseMessage response = await client.SendAsync(message, stoppingToken);
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStreamAsync();
-                // Above three lines can be replaced with new helper method below
-                // string responseBody = await client.GetStringAsync(uri);
 
                 await responseBody.CopyToAsync(stream);
             }
@@ -49,7 +47,7 @@ namespace MyWeatherService.Utilities
                 logger.LogError(e, "Request error!");
             }
         }
-        public static async Task<byte[]> RequestByteArray(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger)
+        public static async Task<byte[]> RequestByteArrayAsync(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger)
         {
             // Call asynchronous network methods in a try/catch block to handle exceptions.
 

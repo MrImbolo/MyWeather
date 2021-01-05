@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWeatherDAL;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,75 +11,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyWeatherService.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20200426013530_CurrencyModifiedIsoMetricSetString")]
+    partial class CurrencyModifiedIsoMetricSetString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("MyWeatherDAL.DTO.Weathers.DailyWeather", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("Clouds")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<double>("DewPoint")
-                        .HasColumnType("double precision");
-
-                    b.Property<int?>("FeelsLikeId")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("Humidity")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Pressure")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("SunriseDT")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("SunsetDT")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("TempId")
-                        .HasColumnType("integer");
-
-                    b.Property<double>("Uvi")
-                        .HasColumnType("double precision");
-
-                    b.Property<long>("Visibility")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("WeatherSummaryId")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("WindDeg")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("WindSpeed")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FeelsLikeId");
-
-                    b.HasIndex("TempId");
-
-                    b.HasIndex("WeatherSummaryId");
-
-                    b.ToTable("DailyWeather");
-                });
 
             modelBuilder.Entity("MyWeatherDAL.DTO.Weathers.FeelsLike", b =>
                 {
@@ -100,9 +42,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("FeelsLikes");
                 });
@@ -133,9 +72,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Temps");
                 });
@@ -183,6 +119,9 @@ namespace MyWeatherService.Migrations
                     b.Property<int?>("WeatherSummaryId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("WeatherSummaryId1")
+                        .HasColumnType("integer");
+
                     b.Property<long>("WindDeg")
                         .HasColumnType("bigint");
 
@@ -191,10 +130,9 @@ namespace MyWeatherService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("WeatherSummaryId");
+
+                    b.HasIndex("WeatherSummaryId1");
 
                     b.ToTable("Weathers");
                 });
@@ -205,9 +143,6 @@ namespace MyWeatherService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("DailyWeatherId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -222,11 +157,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DailyWeatherId");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.HasIndex("WeatherId");
 
@@ -258,9 +188,6 @@ namespace MyWeatherService.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentId");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("WeatherSummaries");
                 });
@@ -311,9 +238,6 @@ namespace MyWeatherService.Migrations
 
                     b.HasIndex("DmsId");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("MercatorId");
 
                     b.HasIndex("OsmId");
@@ -358,8 +282,8 @@ namespace MyWeatherService.Migrations
                     b.Property<string>("Iso31661_Alpha3")
                         .HasColumnType("text");
 
-                    b.Property<string>("Postcode")
-                        .HasColumnType("text");
+                    b.Property<long>("Postcode")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("State")
                         .HasColumnType("text");
@@ -368,9 +292,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Components");
                 });
@@ -420,9 +341,6 @@ namespace MyWeatherService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Currencies");
                 });
 
@@ -441,9 +359,6 @@ namespace MyWeatherService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Dms");
                 });
 
@@ -461,9 +376,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Geometries");
                 });
@@ -504,9 +416,6 @@ namespace MyWeatherService.Migrations
 
                     b.HasIndex("GeometryId");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Locations");
                 });
 
@@ -524,9 +433,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Mercators");
                 });
@@ -548,9 +454,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Osms");
                 });
@@ -576,9 +479,6 @@ namespace MyWeatherService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Rises");
                 });
 
@@ -596,9 +496,6 @@ namespace MyWeatherService.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.HasIndex("RiseId");
 
@@ -631,9 +528,6 @@ namespace MyWeatherService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Timezones");
                 });
 
@@ -649,40 +543,22 @@ namespace MyWeatherService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("What3Words");
-                });
-
-            modelBuilder.Entity("MyWeatherDAL.DTO.Weathers.DailyWeather", b =>
-                {
-                    b.HasOne("MyWeatherDAL.DTO.Weathers.FeelsLike", "FeelsLike")
-                        .WithMany()
-                        .HasForeignKey("FeelsLikeId");
-
-                    b.HasOne("MyWeatherDAL.DTO.Weathers.Temp", "Temp")
-                        .WithMany()
-                        .HasForeignKey("TempId");
-
-                    b.HasOne("MyWeatherDAL.DTO.Weathers.WeatherSummary", null)
-                        .WithMany("Daily")
-                        .HasForeignKey("WeatherSummaryId");
                 });
 
             modelBuilder.Entity("MyWeatherDAL.DTO.Weathers.Weather", b =>
                 {
                     b.HasOne("MyWeatherDAL.DTO.Weathers.WeatherSummary", null)
-                        .WithMany("Hourly")
+                        .WithMany("Daily")
                         .HasForeignKey("WeatherSummaryId");
+
+                    b.HasOne("MyWeatherDAL.DTO.Weathers.WeatherSummary", null)
+                        .WithMany("Hourly")
+                        .HasForeignKey("WeatherSummaryId1");
                 });
 
             modelBuilder.Entity("MyWeatherDAL.DTO.Weathers.WeatherDescription", b =>
                 {
-                    b.HasOne("MyWeatherDAL.DTO.Weathers.DailyWeather", null)
-                        .WithMany("WeatherDescription")
-                        .HasForeignKey("DailyWeatherId");
-
                     b.HasOne("MyWeatherDAL.DTO.Weathers.Weather", null)
                         .WithMany("WeatherDescription")
                         .HasForeignKey("WeatherId");

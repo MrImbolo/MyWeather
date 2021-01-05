@@ -20,7 +20,7 @@
         public string IsoCode { get; set; }
 
         [JsonPropertyName("iso_numeric")]
-        public long IsoNumeric { get; set; }
+        public string IsoNumeric { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }

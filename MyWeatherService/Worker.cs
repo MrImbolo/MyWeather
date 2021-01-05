@@ -51,7 +51,7 @@ namespace MyWeatherService
                         var httpMessage = new ServiceWeatherRequestBuilder(_appSettings, x).Build();
                         var result = await ExecuteSending(httpMessage, stoppingToken, _logger);
                         result.LocationId = x.Id;
-                        await HandleRequestedData(result);
+                        // await HandleRequestedData(result);
                     });
                 }
                
@@ -61,16 +61,16 @@ namespace MyWeatherService
                 await Task.Delay((int)_appSettings.Intervals["Default"], stoppingToken);
             }
         }
-        protected async Task HandleRequestedData(WeatherSummary summary)
-        {
-            // TODO: if weather for such location exists
+        //protected async Task HandleRequestedData(WeatherSummary summary)
+        //{
+        //    // TODO: if weather for such location exists
             
-        }
+        //}
         protected async Task<WeatherSummary> ExecuteSending(HttpRequestMessage httpMessage, CancellationToken token, ILogger logger)
         {
             using (var ms = new MemoryStream())
             {
-                await HttpClientWrapper.RequestStream(httpMessage, token, logger, ms);
+                await HttpClientWrapper.RequestStreamAsync(httpMessage, token, logger, ms);
                 return await JsonSerializer.DeserializeAsync<WeatherSummary>(ms, _jsonSerializerOptions);
             }
         }

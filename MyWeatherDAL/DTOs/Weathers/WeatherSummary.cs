@@ -10,7 +10,7 @@ namespace MyWeatherDAL.DTO.Weathers
         public string Timezone { get; set; }
         public Weather Current { get; set; }
         public List<Weather> Hourly { get; set; }
-        public List<Weather> Daily { get; set; }
+        public List<DailyWeather> Daily { get; set; }
         public int LocationId { get; set; }
     }
 }

@@ -1,0 +1,37 @@
+﻿@{ 
+    var typeNames = ViewBag.Types as List<string>;
+}
+<div class="card">
+    <h5 class="card-header">Test location serialization</h5>
+    <div class="card-body">
+        <h5 class="card-title">Select a model to try deserialize</h5>
+        <form id="deserializationTest" name="deserializationTest">
+            <div class="input-group mb-3">
+                <div class="form-group">
+                    <label for="selectModel">Example select</label>
+                    <select class="form-control" id="type" name="type">
+                        @foreach (var typeName in typeNames)
+                        {
+                            <option>@typeName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <textarea id="json" class="form-control" name="json" placeholder="Input testable json here or leave empty to check Location class"></textarea>
+            <p class="" id="result"></p>
+            <button class="btn btn-secondary" id="submitDeserialization" type="button">Check</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#submitDeserialization').on('click', async function () {
+            $('#result').text("Wait...").removeClass('text-success').removeClass('text-danger').addClass('text-warning');
+            let result = await fetchAsync('/test/LocationSerialization', 'post', { json: $('#json').val(), type: $('#type').val() });
+            if (!!result.success)
+                $('#result').text("OK").removeClass('text-warning').addClass("text-success");
+            else 
+                $('#result').text("Failure").removeClass('text-warning').addClass("text-danger");
+        })
+    })
+</script>

@@ -22,20 +22,24 @@ async function fetchAsync(url, method, object) {
         const CONTENT_TYPE = RESPONSE.headers.get("Content-Type");
         if (CONTENT_TYPE.includes("application/json")) {
             try {
-                return await RESPONSE.json();
+                let result = await RESPONSE.json();
+                console.log(result);
+                return result;
             }
             catch (error) {
+                console.error("Error! Unable to parse json:" + error);
                 return {
                     status: 'error',
                     error: `Json parse error: ${error}`
                 }
             }
         }
-        else if (CONTENT_TYPE.includes("text/html")) {
+        else if (CONTENT_TYPE.includes("text/html") || CONTENT_TYPE.includes("text/plain")) {
             try {
                 return await RESPONSE.text();
             }
             catch (error) {
+                console.error("Error! Unable to parse text:" + error);
                 return {
                     status: 'error',
                     error: `Text read error: ${error}`
@@ -43,6 +47,7 @@ async function fetchAsync(url, method, object) {
             }
         }
         else {
+            console.error("Error! Unknown response mime type:" + error);
             return {
                 status: 'error',
                 error: `No handler specified for MIME ${CONTENT_TYPE}`

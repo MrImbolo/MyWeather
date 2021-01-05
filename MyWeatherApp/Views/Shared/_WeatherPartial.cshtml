@@ -1,81 +1,127 @@
 ﻿@{
-    var location = ViewBag.Location as MyWeatherDAL.Models.Locations.Location;
-    var weatherSummary = ViewBag.WeatherSummary as MyWeatherDAL.DTO.Weathers.WeatherSummary;
 }
-<div class="card bg-dark text-white" id="card-weather">
-    <img src="~/img/default.jpg" class="card-img" alt="default">
-    <div class="card-img-overlay">
-        @if (location != null && weatherSummary != null)
-        {
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="card-title">Погода в @location.Formatted</h5>
-                    <p>Температура: @weatherSummary.Current.Temp</p>
-                    <p>Ощущается как: @weatherSummary.Current.FeelsLike</p>
-                    <p>Влажность: @weatherSummary.Current.Humidity</p>
-                    <p>Атмосферное давление: @weatherSummary.Current.Pressure</p>
-                    <p>Индекс ультрафиолета: @weatherSummary.Current.Uvi</p>
-                </div>
-                <div class="col-md-6">
-                    <p>Here is some textos!</p>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-md-6">
-                    <form id="setLocation" name="locationForm">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="locationName" aria-describedby="searchBtn" placeholder="Название населенного пункта">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="searchBtn"> <strong>></strong> </button>
-                            </div>
-                        </div>
-                        <div id="tabs" class="m-0 p-0"></div>
-                    </form>
-                </div>
-            </div>
-        }
+<div class="jumbotron jumbotron-fluid bg-transparent text-white" id="card-weather">
+    <div class="container-fluid">
+        <div class="my-weather-bg"></div>
+        <div class="container-fluid">
+            <h1 class="display-4">Weather app</h1>
+            <p class="lead">This is a cool stuff for my training</p>
+            <br />
+            <hr />
+            <div id="overlay"></div>
+        </div>
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let tabs = document.getElementById('tabs');
+    document.addEventListener('DOMContentLoaded', async function () {
+        var timer;
+        const spinner = 
+        `<div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>`;
+
+        $(document).find('#overlay').html(spinner);
+
+        var result = await fetchAsync('/weather/get', 'get');
+        $(document).find('#overlay').html(result);
+
+        $(document).on('click', '#change', async function () {
+            $(document).find('#overlay').html(spinner);
+            // console.log('ok');
+            var result = await fetchAsync('/locations/change');
+            $(document).find('#overlay').html(result);
+        });
+
 
         const getSearchStr = () => $('#locationName').val();
 
         const findLocations = async () => await fetchAsync(`/locations/get?searchStr=${getSearchStr()}`);
 
+        const clearTabs = () => {
+            let $tabs = $(document).find('#tabs');
+            $tabs.html('');
+            $tabs.removeClass('show');
+        }
+
         const setTabs = async () => {
-            tabs.childNodes.forEach(x => x.remove());
-            
+            let $tabs = $(document).find('#tabs');
+            clearTabs();
+
             var locations = await findLocations();
             console.log(locations);
 
-            let item = document.createElement("a");
-            item.classList.add('list-group-item', 'list-group-item-action');
-            item.setAttribute('data-toggle', 'list');
-            item.setAttribute('role', 'tab');
+            if (!!!locations || !!!locations.results)
+                return;
 
-            locations.forEach(location => {
-                let clone = item.cloneNode();
-                clone.id = `location_${location.formatted}`;
-                clone.setAttribute('data-name', location.formatted);
-                clone.addEventListener('click', handleFoundCity);
-                tabs.appendChild(clone);
+            locations.results.forEach(location => {
+                location.id = 0;
+                $tabs.append(`<a class="dropdown-item" id="location_${location.geometry.lat}_${location.geometry.lng}" data-name="${location.formatted}">${location.formatted}</a>`);
+                $(document).find('a.dropdown-item').last().data('location', JSON.stringify(location)).on('click', handleFoundCity);
             });
+
+            if (!!$tabs.children().length)
+                $tabs.addClass('show');
+
         };
 
         async function handleFoundCity(e) {
-            const id = e.target.attributes.getNamedItem("data-id");
-            const result = await fetchAsync(`/home/weather/?locationName=${id}`)
+            const data = JSON.parse($(e.target).data('location'))
 
-            $('#weather-partial').html('');
-            $('#weather-partial').html(result);
+            $(document).find('#overlay').html(spinner)
+
+            const result = await fetchAsync('/locations/set', 'post', data)
+
+            $(document).find('#overlay').html(result)
         }
 
-        document.getElementById('searchBtn').addEventListener('click', setTabs);
-        document.getElementById('locationName').addEventListener('input', setTabs);
+        // $(document).on('focusout', '#locationName', clearTabs)
+
+        $(document).on('keydown', function (e) {
+            if (document.activeElement.id == 'locationName') {
+
+                if (e.keyCode == '38') {
+                    e.preventDefault();
+
+                    moveTabsSelectionUp();
+                }
+                else if (e.keyCode == '40') {
+                    e.preventDefault();
+
+                    moveTabsSelectionDown();
+                }
+                else if (e.keyCode == '13') {
+                    e.preventDefault();
+                    if (!!$('[data-name].active').length)
+                        $('[data-name].active')[0].click();
+                }
+            }
+        })
+
+
+        function moveTabsSelectionUp() {
+            let $active = $('[data-name].active');
+            if (!!$active.length && !!$active.prev().length) {
+                $active.removeClass('active');
+                $active.prev().addClass('active');
+            }
+            else {
+                $('[data-name]').last().addClass('active');
+            }
+        }
+        function moveTabsSelectionDown() {
+            let $active = $('[data-name].active');
+            if (!!$active.length && !!$active.next().length) {
+                $active.removeClass('active');
+                $active.next().addClass('active');
+            }
+            else {
+                $('[data-name]').first().addClass('active');
+            }
+        }
+
+        $(document).on('click', '#searchBtn', setTabs);
+        $(document).on('input', '#locationName', setTabs);
     })
 </script>

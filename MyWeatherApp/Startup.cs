@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyWeatherCL.Settings;
+using MyWeatherApp.Extensions;
+using MyWeatherCL.Utilities;
 using MyWeatherDAL;
 using MyWeatherService.Extensions;
-using System.Collections.Generic;
 
 namespace MyWeatherApp
 {
@@ -31,7 +31,9 @@ namespace MyWeatherApp
                 options.UseNpgsql(Configuration.GetConnectionString("Default"), npgOptions => npgOptions.MigrationsAssembly("MyWeatherService"))
             );
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options => options.SetCustomJsonOptions());
+
+            services.AddSingleton(JsonOptionsGlobal.Custom);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

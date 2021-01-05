@@ -24,5 +24,26 @@ namespace MyWeatherDAL
         public DbSet<Sun> Suns { get; set; }
         public DbSet<Timezone> Timezones { get; set; }
         public DbSet<What3Words> What3Words { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Location>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Weather>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<FeelsLike>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Temp>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<WeatherDescription>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<WeatherSummary>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Annotations>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Components>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Currency>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Dms>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Geometry>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Mercator>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Osm>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Rise>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Sun>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<Timezone>().HasIndex(u => u.Id).IsUnique();
+            modelBuilder.Entity<What3Words>().HasIndex(u => u.Id).IsUnique();
+        }
     }
 }
