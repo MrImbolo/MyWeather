@@ -3,7 +3,7 @@ using MyWeatherDAL.JsonConverters;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace MyWeatherDAL.DTO.Weathers
+namespace MyWeatherDAL.Models.Weather
 {
     public partial class Temp
     {

@@ -7,9 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeatherService", "MyWeath
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeatherDAL", "MyWeatherDAL\MyWeatherDAL.csproj", "{938B8431-5EE6-41D5-8EA4-B6179AC4AF87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWeatherApp", "MyWeatherApp\MyWeatherApp.csproj", "{FFAE4F30-FFE7-4AB3-95A2-52687263881E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeatherApp", "MyWeatherApp\MyWeatherApp.csproj", "{FFAE4F30-FFE7-4AB3-95A2-52687263881E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EC571867-8594-4C00-B16F-305384852816} = {EC571867-8594-4C00-B16F-305384852816}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWeatherCL", "MyWeatherCL\MyWeatherCL.csproj", "{2C2E11EF-B5F0-4B95-857F-8A98AF19D97E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeatherCL", "MyWeatherCL\MyWeatherCL.csproj", "{2C2E11EF-B5F0-4B95-857F-8A98AF19D97E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,7 @@
 ﻿namespace MyWeatherDAL.Models.Locations
 {
+    using MyWeatherDAL.Models.Weather;
+    using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
     public partial class Location
@@ -22,5 +24,6 @@
         public Geometry Geometry { get; set; }
         public bool Current { get; set; }
         public bool Requestable { get; set; }
+        public List<WeatherSummary> WeatherSummaries { get; set; }
     }
 }

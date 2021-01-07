@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyWeatherDAL.DTO.Weathers
+namespace MyWeatherDAL.Models.Weather
 {
     public partial class WeatherSummary
     {

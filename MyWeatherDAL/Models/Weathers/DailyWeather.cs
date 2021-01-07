@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MyWeatherDAL.DTO.Weathers
+namespace MyWeatherDAL.Models.Weather
 {
     public partial class DailyWeather
     {

@@ -8,7 +8,7 @@ namespace MyWeatherService.Utilities
 {
     public class HttpClientWrapper
     {
-        static readonly HttpClient client = new HttpClient();
+        static readonly HttpClient _client = new HttpClient();
 
         public static async Task<string> RequestStringAsync(HttpRequestMessage message, CancellationToken stoppingToken, ILogger logger)
         {
@@ -16,7 +16,7 @@ namespace MyWeatherService.Utilities
 
             try
             {
-                HttpResponseMessage response = await client.SendAsync(message, stoppingToken);
+                HttpResponseMessage response = await _client.SendAsync(message, stoppingToken);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
@@ -36,7 +36,7 @@ namespace MyWeatherService.Utilities
 
             try
             {
-                HttpResponseMessage response = await client.SendAsync(message, stoppingToken);
+                HttpResponseMessage response = await _client.SendAsync(message, stoppingToken);
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStreamAsync();
 
@@ -53,7 +53,7 @@ namespace MyWeatherService.Utilities
 
             try
             {
-                HttpResponseMessage response = await client.SendAsync(message, stoppingToken);
+                HttpResponseMessage response = await _client.SendAsync(message, stoppingToken);
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsByteArrayAsync();
                 // Above three lines can be replaced with new helper method below

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyWeatherCL.Settings;
 using MyWeatherDAL;
-using MyWeatherDAL.DTO.Weathers;
+using MyWeatherDAL.Models.Weather;
 using MyWeatherService.Utilities;
-using System.IO;
+using System;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
@@ -32,20 +32,42 @@ namespace MyWeatherApp.Controllers
             if (Request.Cookies.TryGetValue("LocationId", out string value))
                 if (int.TryParse(value, out int locationId))
                 {
-                    var location = await _context.Locations.Where(x => x.Id == locationId).Include("Annotations").Include("Components").Include("Geometry").FirstOrDefaultAsync();
-                    
-                    if (location != null)
+                    if (locationId != 0)
                     {
-                        ViewBag.Location = location;
+                        try
+                        {
+                            var location = await _context.Locations
+                                .Where(x => x.Id == locationId)
+                                .Include("Annotations")
+                                .Include("Components")
+                                .Include("Geometry")
+                                .Include(l => l.WeatherSummaries)
+                                    .ThenInclude(ws => ws.Current)
+                                .FirstOrDefaultAsync(ct)
+                                .ConfigureAwait(false);
 
-                        var msg = new WebAppWeatherRequestBuilder(_settings, location).Build();
-                        var jsonString = await HttpClientWrapper.RequestStringAsync(msg, ct, _logger);
+                            if (location != null)
+                            {
+                                ViewBag.Location = location;
+
+                                //var msg = new WebAppWeatherRequestBuilder(_settings, location).Build();
+                                //var jsonString = await HttpClientWrapper.RequestStringAsync(msg, ct, _logger);
                         
-                        var weather = JsonSerializer.Deserialize<WeatherSummary>(jsonString, _jsonOptions);
-                        ViewBag.WeatherSummary = weather;
+                                //var weather = JsonSerializer.Deserialize<WeatherSummary>(jsonString, _jsonOptions);
+                        
+                                //ViewBag.WeatherSummary = weather;
 
-                        return PartialView("_WeatherInfoPartial");
+                                return PartialView("_WeatherInfoPartial");
+                            }
+                        }
+                        catch (InvalidOperationException ioe)
+                        {
+                            _logger.LogError($"Exception catched at {nameof(WeatherController)}, ef data fetching: {ioe.Message}", ioe);
+                        }
                     }
+
+                    Response.Cookies.Delete("LocationId");
+                    return PartialView("_LocationFindPartial", new { Error = new { StatusCode = 404, ErrorMessage = "No such location found"  } });
                 }
 
             Response.Cookies.Delete("LocationId");

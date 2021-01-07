@@ -1,32 +1,55 @@
 ﻿@using MyWeatherCL.Extensions;
+@using MyWeatherDAL.Models.Weather;
+@using MyWeatherDAL.Models.Locations;
 @{
-    var location = ViewBag.Location as MyWeatherDAL.Models.Locations.Location;
-    var weatherSummary = ViewBag.WeatherSummary as MyWeatherDAL.DTO.Weathers.WeatherSummary;
+    var location = ViewBag.Location as Location;
+    var weatherSummary = location.WeatherSummaries.FirstOrDefault();
 }
 
-<div class="row">
-    <div class="col-md-12 mb-3">
-        <h3 class="card-title">Погода в городе @location.Formatted</h3>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <h5 class="mb-1">Температура: <strong>@weatherSummary.Current.Temp.KtoC().ToString("0.##") C</strong></h5>
-        <p class="mb-1">Ощущается как: @weatherSummary.Current.FeelsLike.KtoC().ToString("0.##") C</p>
-        <p class="mb-1">Влажность: @weatherSummary.Current.Humidity %</p>
-        <p class="mb-1">Атмосферное давление: @weatherSummary.Current.Pressure.HPAtoMmHg()</p>
-    </div>
-    <div class="col-md-6">
-        <p class="mb-1">Индекс ультрафиолета: @weatherSummary.Current.Uvi</p>
-        <p class="mb-1">Направление ветра: @weatherSummary.Current.WindDeg.DegToDirection()</p>
-        <p class="mb-1">Скорость ветра: @weatherSummary.Current.WindSpeed м/с</p>
-    </div>
-</div>
-<hr />
-<div class="row">
-    <div class="col-md-12 mb-3">
-        <div class="d-flex justify-content-start">
-            <button class="btn btn-outline-info" id="change">Сменить локацию</button>
+@if (location != null)
+{
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h3 class="card-title">Погода в городе @location.Formatted</h3>
         </div>
     </div>
-</div>
+    @if (weatherSummary != null)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="mb-1">Температура: <strong>@weatherSummary.Current.Temp.KtoC().ToString("0.##") C</strong></h5>
+                <p class="mb-1">Ощущается как: @weatherSummary.Current.FeelsLike.KtoC().ToString("0.##") C</p>
+                <p class="mb-1">Влажность: @weatherSummary.Current.Humidity %</p>
+                <p class="mb-1">Атмосферное давление: @weatherSummary.Current.Pressure.HPAtoMmHg()</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1">Индекс ультрафиолета: @weatherSummary.Current.Uvi</p>
+                <p class="mb-1">Направление ветра: @weatherSummary.Current.WindDeg.DegToDirection()</p>
+                <p class="mb-1">Скорость ветра: @weatherSummary.Current.WindSpeed м/с</p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-outline-info" id="change">Change location</button>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-warning">Error. No weather found for location</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-outline-info" id="change">Change location</button>
+                </div>
+            </div>
+        </div>
+    }
+}

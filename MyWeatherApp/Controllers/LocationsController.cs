@@ -28,9 +28,15 @@ namespace MyWeatherApp.Controllers
         //[HttpGet]
         //public IActionResult OpenCageApiKey() => Ok(_settings.OpenCageData.ApiKey);
 
-        public IActionResult Change()
+        public async Task<IActionResult> Change(CancellationToken ct)
         {
-            Response.Cookies.Delete("LocationId");
+            if (Request.Cookies.TryGetValue("LocationId", out string value))
+                if (int.TryParse(value, out int locationId))
+                {
+                    (await _context.Locations.Where(x => x.Id == locationId).ToListAsync(ct)).ForEach(x => x.Requestable = false);
+                    await _context.SaveChangesAsync(ct);
+                    Response.Cookies.Delete("LocationId");
+                }
             return PartialView("_LocationFindPartial");
         }
         public async Task<IActionResult> Get([FromQuery]string searchStr, CancellationToken token)

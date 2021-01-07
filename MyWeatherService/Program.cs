@@ -35,8 +35,9 @@ namespace MyWeatherService
                     };
 
                     services.AddDbContext<MyContext>(options =>
-                        options.UseNpgsql(appSettings.ConnectionStrings["Default"], npgOptions => npgOptions.MigrationsAssembly("MyWeatherService"))
-                    );
+                    {
+                        options.UseNpgsql(appSettings.ConnectionStrings["Default"]/*, npgOptions => npgOptions.MigrationsAssembly("MyWeatherService")*/);
+                    }, ServiceLifetime.Singleton);
 
                     services.AddSingleton(appSettings);
                     services.AddSingleton(jsonSerializerOptions);

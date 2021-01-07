@@ -1,4 +1,4 @@
-﻿namespace MyWeatherDAL.DTO.Weathers
+﻿namespace MyWeatherDAL.Models.Weather
 {
     public partial class WeatherDescription
     {

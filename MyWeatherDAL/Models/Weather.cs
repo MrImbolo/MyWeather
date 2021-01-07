@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace MyWeatherDAL.Models
+namespace MyWeatherDAL.Models.Weather
 {
-    public class Weather
+    public class WeatherOld
     {
         public int Id { get; set; }
 
